@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스택 기반 계산기 시뮬레이터</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f1f5f9;
+            padding: 28px;
+        }
+
+        .header {
+            margin-bottom: 24px;
+        }
+
+        .header .subtitle {
+            font-size: 12px;
+            font-weight: 700;
+            color: #2563eb;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        .header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (min-width: 992px) {
+            .main-grid {
+                grid-template-columns: 5fr 7fr;
+            }
+        }
+
+        /* 왼쪽 컨트롤 패널 */
+        .left-panel {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+            outline: none;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        .text-input:focus {
+            border-color: #2563eb;
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .btn {
+            padding: 12px 8px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        .btn-primary {
+            background-color: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-primary:hover { background-color: #1d4ed8; }
+
+        .btn-success {
+            background-color: #059669;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+        }
+
+        .btn-success:hover { background-color: #047857; }
+
+        .btn-secondary {
+            background-color: #e2e8f0;
+            color: #334155;
+        }
+
+        .btn-secondary:hover { background-color: #cbd5e1; }
+
+        .btn:disabled {
+            background-color: #cbd5e1;
+            color: #94a3b8;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* 콘솔 로그 창 */
+        .terminal-box {
+            background-color: #020617;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid #1e293b;
+        }
+
+        .terminal-header {
+            font-size: 12px;
+            font-weight: 600;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .terminal-log {
+            font-family: Consolas, Monaco, monospace;
+            font-size: 13px;
+            height: 250px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-right: 4px;
+        }
+
+        .log-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .log-header-init { color: #94a3b8; font-weight: 600; }
+        .log-header-push { color: #38bdf8; font-weight: 600; }
+        .log-header-calc { color: #f59e0b; font-weight: 600; }
+        .log-header-finish { color: #34d399; font-weight: 600; }
+
+        .log-code {
+            background: #0f172a;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #f8fafc;
+            border-left: 3px solid #2563eb;
+            white-space: pre-wrap;
+        }
+
+        /* 오른쪽 시뮬레이션 영역 */
+        .right-panel {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 460px;
+        }
+
+        .simulation-main {
+            width: 100%;
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 32px;
+            padding-bottom: 16px;
+        }
+
+        .sim-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            width: 140px;
+        }
+
+        .sim-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #94a3b8;
+            margin-bottom: 12px;
+        }
+
+        .rem-text {
+            font-size: 20px;
+            font-weight: 800;
+            color: #2563eb;
+            letter-spacing: 0.05em;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* U자형 스택 그래픽 */
+        .stack-glass {
+            width: 140px;
+            height: 240px;
+            border: 4px solid #334155;
+            border-top: none;
+            border-radius: 0 0 16px 16px;
+            background: rgba(248, 250, 252, 0.8);
+            display: flex;
+            flex-direction: column-reverse;
+            padding: 8px;
+            gap: 8px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .stack-item {
+            width: 100%;
+            height: 38px;
+            background-color: #2563eb;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 18px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .calc-text {
+            font-size: 20px;
+            font-weight: 800;
+            color: #d97706;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 하단 result 박스 */
+        .result-section {
+            width: 100%;
+            margin-top: 8px;
+            padding-top: 16px;
+            border-top: 2px dashed #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .result-box {
+            width: 100%;
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 12px 16px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: #0f172a;
+            min-height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <div class="subtitle">후위 표기법 계산 실체화 시뮬레이션</div>
+            <h1>스택 기반 계산기 시뮬레이터</h1>
+        </div>
+
+        <div class="main-grid">
+            <div class="left-panel">
+                <div>
+                    <label class="input-label" for="textInput">후위 표기식 입력 (공백으로 구분)</label>
+                    <input type="text" id="textInput" value="3 4 + 2 *" class="text-input" onchange="initSimulation()">
+
+                    <div class="btn-group">
+                        <button id="btnNext" onclick="nextStep()" class="btn btn-primary">▶| 다음 단계</button>
+                        <button id="btnAuto" onclick="toggleAuto()" class="btn btn-success">▶ 자동 실행</button>
+                        <button onclick="initSimulation()" class="btn btn-secondary">🔄 초기화</button>
+                    </div>
+
+                    <div class="terminal-box">
+                        <div class="terminal-header">실행 상태 로그</div>
+                        <div id="terminalLog" class="terminal-log"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="simulation-main">
+                    <div class="sim-col">
+                        <span class="sim-label">남은 수식 토큰</span>
+                        <div id="remainingChars" class="rem-text">3 4 + 2 *</div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <div class="stack-glass" id="stackContainer"></div>
+                        <span class="sim-label" style="margin-top: 8px; text-align: center;">스택 (Stack)</span>
+                    </div>
+
+                    <div class="sim-col">
+                        <span class="sim-label">현재 연산 내용</span>
+                        <div id="calcOp" class="calc-text">-</div>
+                    </div>
+                </div>
+
+                <div class="result-section">
+                    <span class="sim-label">최종 계산 결과 (Result)</span>
+                    <div id="resultBox" class="result-box">-</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var tokens = [];
+        var currentIdx = 0;
+        var stack = [];
+        var autoInterval = null;
+
+        function initSimulation() {
+            if (autoInterval) {
+                clearInterval(autoInterval);
+                autoInterval = null;
+            }
+            document.getElementById("btnAuto").innerHTML = "▶ 자동 실행";
+            
+            var inputEl = document.getElementById("textInput");
+            var expr = inputEl.value.trim();
+            if (!expr) {
+                expr = "3 4 + 2 *";
+                inputEl.value = expr;
+            }
+            
+            tokens = expr.split(/\s+/);
+            currentIdx = 0;
+            stack = [];
+
+            document.getElementById("terminalLog").innerHTML = "";
+            document.getElementById("calcOp").innerText = "-";
+            document.getElementById("resultBox").innerText = "-";
+            
+            renderRemaining();
+            renderStack();
+
+            appendLog("INIT", "", "stack = []");
+            document.getElementById("btnNext").disabled = false;
+        }
+
+        function appendLog(logType, desc, codeStr) {
+            var logContainer = document.getElementById("terminalLog");
+            var div = document.createElement("div");
+            div.className = "log-item";
+
+            var headerHTML = "";
+            if (logType === "INIT") {
+                headerHTML = '<span class="log-header-init">[준비] 피연산자 스택 생성</span>';
+            } else if (logType === "PUSH") {
+                headerHTML = '<span class="log-header-push">[숫자 PUSH] 숫자 ' + desc + '을(를) 스택에 넣습니다.</span>';
+            } else if (logType === "CALC") {
+                headerHTML = '<span class="log-header-calc">[연산 POP & PUSH] ' + desc + '</span>';
+            } else if (logType === "FINISH") {
+                headerHTML = '<span class="log-header-finish">[완료] 최종 결과: ' + desc + '</span>';
+            }
+
+            div.innerHTML = '<div>' + headerHTML + '</div>' + 
+                (codeStr ? '<div class="log-code">' + codeStr + '</div>' : '');
+
+            logContainer.appendChild(div);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        function renderRemaining() {
+            var remBox = document.getElementById("remainingChars");
+            if (currentIdx < tokens.length) {
+                remBox.innerText = tokens.slice(currentIdx).join(" ");
+            } else {
+                remBox.innerText = "-";
+            }
+        }
+
+        function renderStack() {
+            var container = document.getElementById("stackContainer");
+            container.innerHTML = "";
+            for (var i = 0; i < stack.length; i++) {
+                var item = document.createElement("div");
+                item.className = "stack-item";
+                item.innerText = stack[i];
+                container.appendChild(item);
+            }
+        }
+
+        function isOperator(token) {
+            return token === '+' || token === '-' || token === '*' || token === '/';
+        }
+
+        function nextStep() {
+            if (currentIdx < tokens.length) {
+                var token = tokens[currentIdx];
+
+                if (!isOperator(token)) {
+                    // 피연산자(숫자)인 경우 스택에 PUSH
+                    var num = Number(token);
+                    stack.push(num);
+                    appendLog("PUSH", num, "stack.append(" + num + ")");
+                    document.getElementById("calcOp").innerText = "-";
+                } else {
+                    // 연산자인 경우 두 수를 POP하여 계산 후 결과 PUSH
+                    if (stack.length < 2) {
+                        appendLog("CALC", "스택에 연산할 숫자가 부족합니다!", "Error");
+                        document.getElementById("btnNext").disabled = true;
+                        return;
+                    }
+                    var b = stack.pop();
+                    var a = stack.pop();
+                    var res = 0;
+
+                    if (token === '+') res = a + b;
+                    else if (token === '-') res = a - b;
+                    else if (token === '*') res = a * b;
+                    else if (token === '/') res = Math.floor(a / b);
+
+                    stack.push(res);
+                    var calcExpr = a + " " + token + " " + b + " = " + res;
+                    document.getElementById("calcOp").innerText = calcExpr;
+                    appendLog("CALC", "꺼낸 두 수 계산: " + calcExpr, "b = stack.pop() # " + b + "\na = stack.pop() # " + a + "\nstack.append(" + res + ")");
+                }
+
+                currentIdx++;
+                renderRemaining();
+                renderStack();
+
+                if (currentIdx >= tokens.length) {
+                    if (stack.length === 1) {
+                        var finalVal = stack[0];
+                        document.getElementById("resultBox").innerText = finalVal;
+                        appendLog("FINISH", finalVal, "result = stack.pop() # " + finalVal);
+                    }
+                    document.getElementById("btnNext").disabled = true;
+                    if (autoInterval) {
+                        clearInterval(autoInterval);
+                        autoInterval = null;
+                        document.getElementById("btnAuto").innerHTML = "▶ 자동 실행";
+                    }
+                }
+            }
+        }
+
+        function toggleAuto() {
+            if (autoInterval) {
+                clearInterval(autoInterval);
+                autoInterval = null;
+                document.getElementById("btnAuto").innerHTML = "▶ 자동 실행";
+            } else {
+                document.getElementById("btnAuto").innerHTML = "⏸ 일시정지";
+                autoInterval = setInterval(function() {
+                    if (document.getElementById("btnNext").disabled) {
+                        clearInterval(autoInterval);
+                        autoInterval = null;
+                        document.getElementById("btnAuto").innerHTML = "▶ 자동 실행";
+                    } else {
+                        nextStep();
+                    }
+                }, 1000);
+            }
+        }
+
+        window.onload = function() {
+            initSimulation();
+        };
+    </script>
+</body>
+</html>
