@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>선형 자료구조 목차 (C & Java)</title>
   <style>
-    html {
-    scroll-behavior: smooth;
-    }
     * { box-sizing: border-box; }
     body {
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
@@ -147,18 +144,17 @@
 
     <ul class="toc-list">
 
-      <!-- 01. 스택 (Stack) -->
+      <!-- 01. 배열 및 동적 배열 -->
       <li class="toc-item">
         <button class="toc-toggle">
           <span class="toc-number">01</span>
-          <span>스택 (Stack)</span>
+          <span>배열 & 동적 배열 (Array / ArrayList)</span>
           <span class="toc-icon">▼</span>
         </button>
         <ul class="sub-list">
-          <!-- 전체 URL 주소 입력 및 보안 속성(rel) 추가 -->
-          <li class="sub-item"><a href="https://example.com/stack" target="_blank" rel="noopener noreferrer">1. 스택의 동작</a></li>
-          <li class="sub-item"><a href="https://example.com/stack_text" target="_blank" rel="noopener noreferrer">2. 스택의 활용: 문자열 뒤집기</a></li>
-          <li class="sub-item"><a href="https://example.com/stack_calc" target="_blank" rel="noopener noreferrer">3. 스택의 활용: 계산기</a></li>
+          <li class="sub-item"><a href="#c-array" target="_blank">1. C: 정적 배열과 malloc/realloc 동적 할당</a></li>
+          <li class="sub-item"><a href="#java-arraylist" target="_blank">2. Java: Array vs java.util.ArrayList</a></li>
+          <li class="sub-item"><a href="#array-ex" target="_blank">3. 동적 배열 재할당 실습 예제</a></li>
         </ul>
       </li>
 
@@ -170,9 +166,9 @@
           <span class="toc-icon">▼</span>
         </button>
         <ul class="sub-list">
-          <li class="sub-item"><a href="stack" target="_blank">1. 스택 개념 및 LIFO 구조</a></li>
-          <li class="sub-item"><a href="stacktext" target="_blank">2. C: 배열/포인터로 push, pop 구현</a></li>
-          <li class="sub-item"><a href="stackcalculator" target="_blank">3. Java: Stack 클래스 및 ArrayDeque 활용</a></li>
+          <li class="sub-item"><a href="#stack-concept" target="_blank">1. 스택 개념 및 LIFO 구조</a></li>
+          <li class="sub-item"><a href="#stack-c-impl" target="_blank">2. C: 배열/포인터로 push, pop 구현</a></li>
+          <li class="sub-item"><a href="#stack-java-impl" target="_blank">3. Java: Stack 클래스 및 ArrayDeque 활용</a></li>
           <li class="sub-item"><a href="#stack-calc" target="_blank">4. 응용: 후위 표기법 계산기 & 괄호 검사</a></li>
         </ul>
       </li>
