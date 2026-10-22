@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>선형 자료구조 목차 (C & Java)</title>
+  <style>
+    html {
+    scroll-behavior: smooth;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      background-color: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+      margin: 0;
+    }
+    .toc-card {
+      background-color: #ffffff;
+      width: 100%;
+      max-width: 550px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+      border: 1px solid #f0f0f0;
+    }
+    .toc-header {
+      background-color: #ffd054;
+      padding: 28px 24px;
+      text-align: center;
+      color: #222222;
+    }
+    .toc-header h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .toc-header p {
+      margin: 6px 0 0;
+      font-size: 13px;
+      opacity: 0.85;
+    }
+    .toc-list {
+      list-style: none;
+      padding: 16px 20px 24px;
+      margin: 0;
+    }
+    .toc-item {
+      margin-bottom: 8px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #f1f3f5;
+    }
+    .toc-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding: 14px 16px;
+      background-color: #fff;
+      border: none;
+      text-align: left;
+      font-size: 15px;
+      font-weight: 600;
+      color: #333;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    .toc-toggle:hover {
+      background-color: #fffde6;
+      color: #b88300;
+    }
+    .toc-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background-color: #f1f3f5;
+      color: #555;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 700;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    .toc-toggle:hover .toc-number,
+    .toc-item.active .toc-number {
+      background-color: #ffd054;
+      color: #222;
+    }
+    .toc-icon {
+      margin-left: auto;
+      font-size: 12px;
+      transition: transform 0.3s ease;
+      color: #888;
+    }
+    .toc-item.active .toc-icon {
+      transform: rotate(180deg);
+      color: #222;
+    }
+    .sub-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      background-color: #fafafa;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+      border-top: 1px solid transparent;
+    }
+    .toc-item.active .sub-list {
+      border-top-color: #eee;
+    }
+    .sub-item a {
+      display: flex;
+      align-items: center;
+      padding: 10px 16px 10px 56px;
+      font-size: 13.5px;
+      color: #555;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .sub-item a:hover {
+      background-color: #f0f0f0;
+      color: #000;
+      font-weight: 600;
+      padding-left: 60px;
+    }
+    .sub-item a::before {
+      content: "•";
+      margin-right: 8px;
+      color: #ffd054;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toc-card">
+    <div class="toc-header">
+      <h1>선형 자료구조 (C / Java)</h1>
+      <p>항목을 클릭하면 세부 예제 페이지로 이동합니다</p>
+    </div>
+
+    <ul class="toc-list">
+
+      <!-- 01. 스택 (Stack) -->
+      <li class="toc-item">
+        <button class="toc-toggle">
+          <span class="toc-number">01</span>
+          <span>스택 (Stack)</span>
+          <span class="toc-icon">▼</span>
+        </button>
+        <ul class="sub-list">
+          <!-- 전체 URL 주소 입력 및 보안 속성(rel) 추가 -->
+          <li class="sub-item"><a href="https://example.com/stack" target="_blank" rel="noopener noreferrer">1. 스택의 동작</a></li>
+          <li class="sub-item"><a href="https://example.com/stack_text" target="_blank" rel="noopener noreferrer">2. 스택의 활용: 문자열 뒤집기</a></li>
+          <li class="sub-item"><a href="https://example.com/stack_calc" target="_blank" rel="noopener noreferrer">3. 스택의 활용: 계산기</a></li>
+        </ul>
+      </li>
+
+      <!-- 02. 스택 -->
+      <li class="toc-item">
+        <button class="toc-toggle">
+          <span class="toc-number">02</span>
+          <span>스택 (Stack)</span>
+          <span class="toc-icon">▼</span>
+        </button>
+        <ul class="sub-list">
+          <li class="sub-item"><a href="stack" target="_blank">1. 스택 개념 및 LIFO 구조</a></li>
+          <li class="sub-item"><a href="stacktext" target="_blank">2. C: 배열/포인터로 push, pop 구현</a></li>
+          <li class="sub-item"><a href="stackcalculator" target="_blank">3. Java: Stack 클래스 및 ArrayDeque 활용</a></li>
+          <li class="sub-item"><a href="#stack-calc" target="_blank">4. 응용: 후위 표기법 계산기 & 괄호 검사</a></li>
+        </ul>
+      </li>
+
+      <!-- 03. 큐 -->
+      <li class="toc-item">
+        <button class="toc-toggle">
+          <span class="toc-number">03</span>
+          <span>큐 & 덱 (Queue / Deque)</span>
+          <span class="toc-icon">▼</span>
+        </button>
+        <ul class="sub-list">
+          <li class="sub-item"><a href="#queue-concept" target="_blank">1. 선형 큐, 원형 큐(Circular Queue) 개념</a></li>
+          <li class="sub-item"><a href="#queue-c-impl" target="_blank">2. C: 배열 기반 원형 큐 구현</a></li>
+          <li class="sub-item"><a href="#queue-java-impl" target="_blank">3. Java: Queue 인터페이스 & LinkedList / ArrayDeque</a></li>
+          <li class="sub-item"><a href="#queue-ex" target="_blank">4. 응용: 프로세스 스케줄링 대기열 실습</a></li>
+        </ul>
+      </li>
+
+      <!-- 04. 연결 리스트 -->
+      <li class="toc-item">
+        <button class="toc-toggle">
+          <span class="toc-number">04</span>
+          <span>연결 리스트 (Linked List)</span>
+          <span class="toc-icon">▼</span>
+        </button>
+        <ul class="sub-list">
+          <li class="sub-item"><a href="#linked-concept" target="_blank">1. 단일(Singly) / 이중(Doubly) 연결 리스트</a></li>
+          <li class="sub-item"><a href="#linked-c-struct" target="_blank">2. C: struct와 포인터를 이용한 노드 제어</a></li>
+          <li class="sub-item"><a href="#linked-java-class" target="_blank">3. Java: java.util.LinkedList와 Custom Node 클래스</a></li>
+          <li class="sub-item"><a href="#linked-ex" target="_blank">4. 응용: 중간 노드 삽입 및 삭제, 리스트 뒤집기</a></li>
+        </ul>
+      </li>
+
+    </ul>
+  </div>
+
+  <script>
+    document.querySelectorAll('.toc-toggle').forEach(button => {
+      button.addEventListener('click', () => {
+        const currentItem = button.parentElement;
+        const currentSubList = button.nextElementSibling;
+        const isOpen = currentItem.classList.contains('active');
+
+        // 1. 모든 항목을 먼저 닫기 (단일 열림 동작 방식)
+        document.querySelectorAll('.toc-item').forEach(item => {
+          item.classList.remove('active');
+        });
+        document.querySelectorAll('.sub-list').forEach(list => {
+          list.style.maxHeight = null;
+        });
+
+        // 2. 이미 열려있던 항목을 다시 누른 것이 아니라면, 클릭한 항목만 열기
+        if (!isOpen) {
+          currentItem.classList.add('active');
+          currentSubList.style.maxHeight = currentSubList.scrollHeight + "px";
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
