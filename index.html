@@ -1,63 +1,79 @@
-<!DOCTYPE html>
-<html lang="ko">
+<!DOCTYPE html> <!-- 이 문서가 최신 HTML5 표준으로 작성되었음을 브라우저에 알림 -->
+<html lang="ko"> <!-- 문서의 기본 언어를 한국어로 설정 -->
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>선형 자료구조 목차 (Python)</title>
+  <meta charset="UTF-8"> <!-- 한글이 깨지지 않도록 UTF-8 문자 인코딩 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 스마트폰 등 모바일 화면 크기에 맞춰 비율 자동 조절 -->
+  <title>선형 자료구조 목차</title> <!-- 브라우저 상단 탭에 표시될 웹페이지 제목 -->
+
+  <!-- ==================== [1. CSS 스타일 영역: 디자인 및 애니메이션] ==================== -->
   <style>
+    /* 페이지 내 링크 이동 시 부드럽게 스크롤되도록 설정 */
     html {
-    scroll-behavior: smooth;
+      scroll-behavior: smooth;
     }
+    /* 모든 요소의 테두리(border)와 안쪽 여백(padding)을 지정한 크기(width/height) 안에 포함시켜 계산 */
     * { box-sizing: border-box; }
+
+    /* 화면 전체 배경 및 가운데 정렬 설정 */
     body {
-      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-      background-color: #f8f9fa;
-      display: flex;
-      justify-content: center;
-      padding: 40px 20px;
-      margin: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; /* 깔끔한 기본 글꼴 지정 */
+      background-color: #f8f9fa; /* 연한 회색 배경색 */
+      display: flex;             /* 내부 요소를 유연하게 배치하기 위한 Flexbox 선언 */
+      justify-content: center;   /* 자식 요소(.toc-card)를 화면 가로 정중앙에 배치 */
+      padding: 40px 20px;        /* 위아래 40px, 좌우 20px의 바깥 여백 부여 */
+      margin: 0;                 /* 브라우저 기본 여백 제거 */
     }
+
+    /* 전체 목차를 감싸는 하얀색 카드 박스 */
     .toc-card {
       background-color: #ffffff;
-      width: 100%;
-      max-width: 550px;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-      overflow: hidden;
-      border: 1px solid #f0f0f0;
+      width: 100%;               /* 화면이 좁을 땐 꽉 차게 */
+      max-width: 550px;          /* 화면이 넓어도 최대 가로 길이는 550px로 제한 */
+      border-radius: 16px;       /* 카드 모서리를 둥글게 깎음 */
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06); /* 은은한 그림자 효과로 입체감 부여 */
+      overflow: hidden;          /* 둥근 모서리 밖으로 삐져나오는 자식 요소(배경색 등)를 깔끔하게 잘라냄 */
+      border: 1px solid #f0f0f0; /* 얇은 테두리 선 */
     }
+
+    /* 카드 상단의 노란색 제목 영역 */
     .toc-header {
       background-color: #ffd054;
       padding: 28px 24px;
-      text-align: center;
+      text-align: center;        /* 텍스트 가운데 정렬 */
       color: #222222;
     }
     .toc-header h1 {
       margin: 0;
       font-size: 22px;
       font-weight: 700;
-      letter-spacing: -0.5px;
+      letter-spacing: -0.5px;    /* 자간(글자 사이 간격)을 살짝 좁혀 단단한 느낌 부여 */
     }
     .toc-header p {
       margin: 6px 0 0;
       font-size: 13px;
-      opacity: 0.85;
+      opacity: 0.85;             /* 글자 투명도를 살짝 낮춰 부제목 느낌 연출 */
     }
+
+    /* 대주제 목록 전체를 감싸는 리스트 컨테이너 */
     .toc-list {
-      list-style: none;
+      list-style: none;          /* 기본 목록 기호(검은 점) 제거 */
       padding: 16px 20px 24px;
       margin: 0;
     }
+
+    /* 각각의 대주제(01, 02, 03, 04) 박스 */
     .toc-item {
       margin-bottom: 8px;
       border-radius: 10px;
       overflow: hidden;
       border: 1px solid #f1f3f5;
     }
+
+    /* 클릭할 수 있는 대주제 버튼 디자인 */
     .toc-toggle {
       width: 100%;
-      display: flex;
-      align-items: center;
+      display: flex;             /* 번호, 제목, 화살표를 가로로 나란히 배치 */
+      align-items: center;       /* 세로 방향 가운데 정렬 */
       padding: 14px 16px;
       background-color: #fff;
       border: none;
@@ -65,13 +81,16 @@
       font-size: 15px;
       font-weight: 600;
       color: #333;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
+      cursor: pointer;           /* 마우스를 올렸을 때 손가락 모양 커서로 변경 */
+      transition: background-color 0.2s ease; /* 배경색이 0.2초 동안 부드럽게 변함 */
     }
+    /* 버튼에 마우스를 올렸을 때(hover) 색상 변경 */
     .toc-toggle:hover {
       background-color: #fffde6;
       color: #b88300;
     }
+
+    /* '01', '02' 등 동그란 번호 뱃지 */
     .toc-number {
       display: inline-flex;
       align-items: center;
@@ -80,55 +99,66 @@
       height: 28px;
       background-color: #f1f3f5;
       color: #555;
-      border-radius: 50%;
+      border-radius: 50%;        /* 정사각형을 원형으로 만듦 */
       font-size: 12px;
       font-weight: 700;
       margin-right: 12px;
-      flex-shrink: 0;
+      flex-shrink: 0;            /* 제목이 길어져도 동그라미가 찌그러지지 않도록 고정 */
     }
+    /* 마우스를 올리거나 메뉴가 열렸을 때(.active) 번호 뱃지를 노란색으로 강조 */
     .toc-toggle:hover .toc-number,
     .toc-item.active .toc-number {
       background-color: #ffd054;
       color: #222;
     }
+
+    /* 오른쪽 끝 화살표(▼) 아이콘 */
     .toc-icon {
-      margin-left: auto;
+      margin-left: auto;         /* 왼쪽 여백을 최대로 밀어내어 맨 오른쪽 끝에 배치 */
       font-size: 12px;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease; /* 회전 애니메이션 속도 설정 */
       color: #888;
     }
+    /* 메뉴가 열렸을 때(.active) 화살표를 180도 회전시켜 위(▲)를 보게 만듦 */
     .toc-item.active .toc-icon {
       transform: rotate(180deg);
       color: #222;
     }
+
+    /* 클릭 시 펼쳐지는 하위 세부 링크 목록 (평소에는 숨겨둠) */
     .sub-list {
       list-style: none;
       padding: 0;
       margin: 0;
       background-color: #fafafa;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease-out;
+      max-height: 0;             /* 높이를 0으로 설정하여 화면에서 숨김 */
+      overflow: hidden;          /* 높이 0 밖으로 넘치는 글자들을 숨김 */
+      transition: max-height 0.3s ease-out; /* 높이가 늘어날 때 부드럽게 열리는 아코디언 효과 */
       border-top: 1px solid transparent;
     }
+    /* 메뉴가 열렸을 때 위쪽 구분선 표시 */
     .toc-item.active .sub-list {
       border-top-color: #eee;
     }
+
+    /* 하위 세부 링크(<a> 태그) 디자인 */
     .sub-item a {
       display: flex;
       align-items: center;
-      padding: 10px 16px 10px 56px;
+      padding: 10px 16px 10px 56px; /* 왼쪽 여백(56px)을 크게 주어 들여쓰기 효과 */
       font-size: 13.5px;
       color: #555;
-      text-decoration: none;
+      text-decoration: none;     /* 링크 기본 밑줄 제거 */
       transition: all 0.2s ease;
     }
+    /* 하위 링크에 마우스를 올렸을 때 오른쪽으로 살짝 밀리며 강조되는 효과 */
     .sub-item a:hover {
       background-color: #f0f0f0;
       color: #000;
       font-weight: 600;
       padding-left: 60px;
     }
+    /* 각 하위 링크 텍스트 앞에 노란색 점(•) 자동 삽입 */
     .sub-item a::before {
       content: "•";
       margin-right: 8px;
@@ -139,15 +169,18 @@
 </head>
 <body>
 
+  <!-- ==================== [2. HTML 본문 영역: 화면 구조 및 링크 연결] ==================== -->
   <div class="toc-card">
+    <!-- 상단 제목 배너 -->
     <div class="toc-header">
       <h1>선형 자료구조 (C / Java)</h1>
       <p>항목을 클릭하면 세부 예제 페이지로 이동합니다</p>
     </div>
 
+    <!-- 목차 리스트 시작 -->
     <ul class="toc-list">
 
-      <!-- 01. 스택 (Stack) -->
+      <!-- 01. 스택 (Stack) -> 깃허브의 'stack' 폴더로 연결 -->
       <li class="toc-item">
         <button class="toc-toggle">
           <span class="toc-number">01</span>
@@ -155,44 +188,39 @@
           <span class="toc-icon">▼</span>
         </button>
         <ul class="sub-list">
-          <!-- 전체 URL 주소 입력 및 보안 속성(rel) 추가 -->
-          <li class="sub-item"><a href="https://example.com/stack" target="_blank" rel="noopener noreferrer">1. 스택의 동작</a></li>
-          <li class="sub-item"><a href="https://example.com/stack_text" target="_blank" rel="noopener noreferrer">2. 스택의 활용: 문자열 뒤집기</a></li>
-          <li class="sub-item"><a href="https://example.com/stack_calc" target="_blank" rel="noopener noreferrer">3. 스택의 활용: 계산기</a></li>
+          <!-- ★ 수정된 부분: href="./stack/" 을 입력하면 stack 폴더 안의 index.html이 열립니다. -->
+          <!-- target="_blank": 새 탭에서 열기 / rel="noopener noreferrer": 새 탭 열기 시 보안 취약점 방지 -->
+          <li class="sub-item"><a href="./stack/" target="_blank" rel="noopener noreferrer">스택(Stack) 실습 페이지 바로가기</a></li>
         </ul>
       </li>
 
-      <!-- 02. 큐 -->
+      <!-- 02. 큐 (Queue) -> 깃허브의 'queue' 폴더로 연결 -->
       <li class="toc-item">
         <button class="toc-toggle">
           <span class="toc-number">02</span>
-          <span>스택 (Stack)</span>
+          <span>큐 (Queue)</span>
           <span class="toc-icon">▼</span>
         </button>
         <ul class="sub-list">
-          <li class="sub-item"><a href="stack" target="_blank">1. 스택 개념 및 LIFO 구조</a></li>
-          <li class="sub-item"><a href="stacktext" target="_blank">2. C: 배열/포인터로 push, pop 구현</a></li>
-          <li class="sub-item"><a href="stackcalculator" target="_blank">3. Java: Stack 클래스 및 ArrayDeque 활용</a></li>
-          <li class="sub-item"><a href="#stack-calc" target="_blank">4. 응용: 후위 표기법 계산기 & 괄호 검사</a></li>
+          <!-- ★ 수정된 부분: queue 폴더 안의 index.html로 연결 -->
+          <li class="sub-item"><a href="./queue/" target="_blank" rel="noopener noreferrer">큐(Queue) 실습 페이지 바로가기</a></li>
         </ul>
       </li>
 
-      <!-- 03. 덱 (Deque) -->
+      <!-- 03. 리스트 (List) -> 깃허브의 'list' 폴더로 연결 -->
       <li class="toc-item">
         <button class="toc-toggle">
           <span class="toc-number">03</span>
-          <span>큐 & 덱 (Queue / Deque)</span>
+          <span>리스트 (List)</span>
           <span class="toc-icon">▼</span>
         </button>
         <ul class="sub-list">
-          <li class="sub-item"><a href="#queue-concept" target="_blank">1. 선형 큐, 원형 큐(Circular Queue) 개념</a></li>
-          <li class="sub-item"><a href="#queue-c-impl" target="_blank">2. C: 배열 기반 원형 큐 구현</a></li>
-          <li class="sub-item"><a href="#queue-java-impl" target="_blank">3. Java: Queue 인터페이스 & LinkedList / ArrayDeque</a></li>
-          <li class="sub-item"><a href="#queue-ex" target="_blank">4. 응용: 프로세스 스케줄링 대기열 실습</a></li>
+          <!-- ★ 수정된 부분: list 폴더 안의 index.html로 연결 -->
+          <li class="sub-item"><a href="./list/" target="_blank" rel="noopener noreferrer">리스트(List) 실습 페이지 바로가기</a></li>
         </ul>
       </li>
 
-      <!-- 04. 연결 리스트 -->
+      <!-- 04. 연결 리스트 (Linked List) -> 깃허브의 'linkedlist' 폴더로 연결 -->
       <li class="toc-item">
         <button class="toc-toggle">
           <span class="toc-number">04</span>
@@ -200,24 +228,24 @@
           <span class="toc-icon">▼</span>
         </button>
         <ul class="sub-list">
-          <li class="sub-item"><a href="#linked-concept" target="_blank">1. 단일(Singly) / 이중(Doubly) 연결 리스트</a></li>
-          <li class="sub-item"><a href="#linked-c-struct" target="_blank">2. C: struct와 포인터를 이용한 노드 제어</a></li>
-          <li class="sub-item"><a href="#linked-java-class" target="_blank">3. Java: java.util.LinkedList와 Custom Node 클래스</a></li>
-          <li class="sub-item"><a href="#linked-ex" target="_blank">4. 응용: 중간 노드 삽입 및 삭제, 리스트 뒤집기</a></li>
+          <!-- ★ 수정된 부분: linkedlist 폴더 안의 index.html로 연결 -->
+          <li class="sub-item"><a href="./linkedlist/" target="_blank" rel="noopener noreferrer">연결 리스트(Linked List) 실습 페이지 바로가기</a></li>
         </ul>
       </li>
 
     </ul>
   </div>
 
+  <!-- ==================== [3. JavaScript 영역: 아코디언 메뉴 클릭 동작] ==================== -->
   <script>
+    // 화면에 있는 모든 '.toc-toggle'(대주제 버튼)을 찾아 각각 클릭 이벤트를 연결함
     document.querySelectorAll('.toc-toggle').forEach(button => {
       button.addEventListener('click', () => {
-        const currentItem = button.parentElement;
-        const currentSubList = button.nextElementSibling;
-        const isOpen = currentItem.classList.contains('active');
+        const currentItem = button.parentElement;       // 클릭한 버튼의 부모 요소 (<li class="toc-item">)
+        const currentSubList = button.nextElementSibling; // 클릭한 버튼 바로 다음 형제 요소 (<ul class="sub-list">)
+        const isOpen = currentItem.classList.contains('active'); // 현재 항목이 이미 열려있는지 확인 (true/false)
 
-        // 1. 모든 항목을 먼저 닫기 (단일 열림 동작 방식)
+        // 1단계: 다른 메뉴가 열려있을 수 있으므로, 일단 모든 항목의 'active' 클래스를 제거하고 높이를 초기화하여 닫음
         document.querySelectorAll('.toc-item').forEach(item => {
           item.classList.remove('active');
         });
@@ -225,7 +253,7 @@
           list.style.maxHeight = null;
         });
 
-        // 2. 이미 열려있던 항목을 다시 누른 것이 아니라면, 클릭한 항목만 열기
+        // 2단계: 방금 클릭한 항목이 닫혀있던 상태였다면(!isOpen), 'active' 클래스를 추가하고 실제 내용물 높이(scrollHeight)만큼 펼쳐줌
         if (!isOpen) {
           currentItem.classList.add('active');
           currentSubList.style.maxHeight = currentSubList.scrollHeight + "px";
