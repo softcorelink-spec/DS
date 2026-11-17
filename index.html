@@ -1,96 +1,81 @@
-<!DOCTYPE html> <!-- 이 문서가 최신 HTML5 표준으로 작성되었음을 브라우저에 알림 -->
-<html lang="ko"> <!-- 문서의 기본 언어를 한국어로 설정 -->
-<head>
-  <meta charset="UTF-8"> <!-- 한글이 깨지지 않도록 UTF-8 문자 인코딩 설정 -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 스마트폰 등 모바일 화면 크기에 맞춰 비율 자동 조절 -->
-  <title>선형 자료구조 목차</title> <!-- 브라우저 상단 탭에 표시될 웹페이지 제목 -->
+<!DOCTYPE html> <!-- 1. 문서 형식 선언: 이 파일이 최신 HTML5 표준 문서임을 브라우저에 알림 -->
+<html lang="ko"> <!-- 2. HTML 문서의 최상위 루트 태그 (기본 언어를 한국어로 설정) -->
 
-  <!-- ==================== [1. CSS 스타일 영역: 디자인 및 애니메이션] ==================== -->
+<head> <!-- 3. 웹페이지의 설정 정보(메타데이터, 제목, 디자인 스타일 등)를 담는 머리말 영역 -->
+  <meta charset="UTF-8"> <!-- 한글이 깨지지 않도록 전 세계 표준 문자 인코딩(UTF-8) 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 스마트폰·태블릿 등 기기 화면 너비에 맞춰 비율 자동 조절 -->
+  <title>자료구조 학습 목차</title> <!-- 웹 브라우저 상단 탭에 표시될 제목 -->
+
+  <!-- ==================== [CSS 스타일 영역: 화면 디자인과 애니메이션 정의] ==================== -->
   <style>
-    /* 페이지 내 링크 이동 시 부드럽게 스크롤되도록 설정 */
-    html {
-      scroll-behavior: smooth;
-    }
-    /* 모든 요소의 테두리(border)와 안쪽 여백(padding)을 지정한 크기(width/height) 안에 포함시켜 계산 */
+    /* 모든 HTML 요소(*)의 테두리(border)와 안쪽 여백(padding)을 지정한 크기 안에 포함시켜 레이아웃 틀어짐 방지 */
     * { box-sizing: border-box; }
 
-    /* 화면 전체 배경 및 가운데 정렬 설정 */
+    /* 화면 전체(body)의 배경과 정렬 설정 */
     body {
-      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; /* 깔끔한 기본 글꼴 지정 */
-      background-color: #f8f9fa; /* 연한 회색 배경색 */
-      display: flex;             /* 내부 요소를 유연하게 배치하기 위한 Flexbox 선언 */
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; /* 깔끔한 산세리프 글꼴 지정 */
+      background-color: #f8f9fa; /* 눈이 편안한 연회색 배경 */
+      display: flex;             /* 내부 카드를 유연하게 배치하기 위한 Flexbox 레이아웃 활성화 */
       justify-content: center;   /* 자식 요소(.toc-card)를 화면 가로 정중앙에 배치 */
-      padding: 40px 20px;        /* 위아래 40px, 좌우 20px의 바깥 여백 부여 */
-      margin: 0;                 /* 브라우저 기본 여백 제거 */
+      padding: 40px 20px;        /* 위아래 40px, 좌우 20px의 여백 부여 */
+      margin: 0;                 /* 브라우저가 기본적으로 주는 바깥 여백 제거 */
     }
 
-    /* 전체 목차를 감싸는 하얀색 카드 박스 */
+    /* 목차 전체를 감싸는 흰색 카드 박스 */
     .toc-card {
       background-color: #ffffff;
-      width: 100%;               /* 화면이 좁을 땐 꽉 차게 */
-      max-width: 550px;          /* 화면이 넓어도 최대 가로 길이는 550px로 제한 */
-      border-radius: 16px;       /* 카드 모서리를 둥글게 깎음 */
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06); /* 은은한 그림자 효과로 입체감 부여 */
+      width: 100%;               /* 모바일 등 좁은 화면에서는 가로 100% 사용 */
+      max-width: 550px;          /* PC 등 넓은 화면에서도 최대 가로 폭은 550px로 제한 */
+      border-radius: 16px;       /* 카드의 네 모서리를 둥글게 깎음 */
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06); /* 아래쪽으로 은은한 그림자를 주어 카드가 떠 있는 입체감 연출 */
       overflow: hidden;          /* 둥근 모서리 밖으로 삐져나오는 자식 요소(배경색 등)를 깔끔하게 잘라냄 */
-      border: 1px solid #f0f0f0; /* 얇은 테두리 선 */
+      border: 1px solid #f0f0f0; /* 아주 얇은 연회색 테두리 */
     }
 
-    /* 카드 상단의 노란색 제목 영역 */
+    /* 카드 상단의 노란색 제목 배너 */
     .toc-header {
       background-color: #ffd054;
       padding: 28px 24px;
       text-align: center;        /* 텍스트 가운데 정렬 */
       color: #222222;
     }
-    .toc-header h1 {
-      margin: 0;
-      font-size: 22px;
-      font-weight: 700;
-      letter-spacing: -0.5px;    /* 자간(글자 사이 간격)을 살짝 좁혀 단단한 느낌 부여 */
-    }
-    .toc-header p {
-      margin: 6px 0 0;
-      font-size: 13px;
-      opacity: 0.85;             /* 글자 투명도를 살짝 낮춰 부제목 느낌 연출 */
-    }
+    .toc-header h1 { margin: 0; font-size: 22px; font-weight: 700; } /* 큰 제목 스타일 */
+    .toc-header p { margin: 6px 0 0; font-size: 13px; opacity: 0.85; } /* 부제목 스타일 (투명도 85%) */
 
-    /* 대주제 목록 전체를 감싸는 리스트 컨테이너 */
+    /* 대주제(카테고리) 목록을 감싸는 컨테이너 */
     .toc-list {
-      list-style: none;          /* 기본 목록 기호(검은 점) 제거 */
+      list-style: none;          /* 목록 앞의 기본 검은 점(•) 제거 */
       padding: 16px 20px 24px;
       margin: 0;
     }
 
-    /* 각각의 대주제(01, 02, 03, 04) 박스 */
+    /* 각각의 카테고리(01, 02, 03, 04) 박스 */
     .toc-item {
-      margin-bottom: 8px;
+      margin-bottom: 8px;        /* 카테고리 박스 사이의 아래쪽 간격 */
       border-radius: 10px;
       overflow: hidden;
       border: 1px solid #f1f3f5;
     }
 
-    /* 클릭할 수 있는 대주제 버튼 디자인 */
+    /* 클릭해서 아코디언을 여닫는 카테고리 제목 버튼 */
     .toc-toggle {
       width: 100%;
-      display: flex;             /* 번호, 제목, 화살표를 가로로 나란히 배치 */
+      display: flex;             /* 번호, 카테고리명, 화살표를 가로 한 줄로 나란히 배치 */
       align-items: center;       /* 세로 방향 가운데 정렬 */
       padding: 14px 16px;
       background-color: #fff;
-      border: none;
+      border: none;              /* 기본 버튼 테두리 제거 */
       text-align: left;
       font-size: 15px;
       font-weight: 600;
       color: #333;
-      cursor: pointer;           /* 마우스를 올렸을 때 손가락 모양 커서로 변경 */
-      transition: background-color 0.2s ease; /* 배경색이 0.2초 동안 부드럽게 변함 */
+      cursor: pointer;           /* 마우스를 올리면 클릭 가능한 손가락 모양 커서로 변경 */
+      transition: background-color 0.2s ease; /* 배경색이 0.2초 동안 부드럽게 전환 */
     }
-    /* 버튼에 마우스를 올렸을 때(hover) 색상 변경 */
-    .toc-toggle:hover {
-      background-color: #fffde6;
-      color: #b88300;
-    }
+    /* 카테고리 버튼에 마우스를 올렸을 때(hover) 연노란색으로 강조 */
+    .toc-toggle:hover { background-color: #fffde6; color: #b88300; }
 
-    /* '01', '02' 등 동그란 번호 뱃지 */
+    /* '01', '02' 등 원형 번호 뱃지 */
     .toc-number {
       display: inline-flex;
       align-items: center;
@@ -99,102 +84,104 @@
       height: 28px;
       background-color: #f1f3f5;
       color: #555;
-      border-radius: 50%;        /* 정사각형을 원형으로 만듦 */
+      border-radius: 50%;        /* 정사각형을 완벽한 원형으로 만듦 */
       font-size: 12px;
       font-weight: 700;
       margin-right: 12px;
-      flex-shrink: 0;            /* 제목이 길어져도 동그라미가 찌그러지지 않도록 고정 */
+      flex-shrink: 0;            /* 제목이 길어져도 동그라미가 찌그러지지 않도록 크기 고정 */
     }
-    /* 마우스를 올리거나 메뉴가 열렸을 때(.active) 번호 뱃지를 노란색으로 강조 */
+    /* 마우스를 올리거나 메뉴가 열렸을 때(.active) 번호 뱃지를 진한 노란색으로 변경 */
     .toc-toggle:hover .toc-number,
-    .toc-item.active .toc-number {
-      background-color: #ffd054;
-      color: #222;
-    }
+    .toc-item.active .toc-number { background-color: #ffd054; color: #222; }
 
     /* 오른쪽 끝 화살표(▼) 아이콘 */
     .toc-icon {
-      margin-left: auto;         /* 왼쪽 여백을 최대로 밀어내어 맨 오른쪽 끝에 배치 */
+      margin-left: auto;         /* 왼쪽 여백을 최대로 확보해 화살표를 맨 오른쪽 끝으로 밀어냄 */
       font-size: 12px;
-      transition: transform 0.3s ease; /* 회전 애니메이션 속도 설정 */
+      transition: transform 0.3s ease; /* 회전 움직임을 0.3초 동안 부드럽게 처리 */
       color: #888;
     }
-    /* 메뉴가 열렸을 때(.active) 화살표를 180도 회전시켜 위(▲)를 보게 만듦 */
-    .toc-item.active .toc-icon {
-      transform: rotate(180deg);
-      color: #222;
-    }
+    /* 카테고리가 열렸을 때(.active) 화살표를 180도 회전시켜 위(▲)를 향하게 함 */
+    .toc-item.active .toc-icon { transform: rotate(180deg); color: #222; }
 
-    /* 클릭 시 펼쳐지는 하위 세부 링크 목록 (평소에는 숨겨둠) */
+    /* 클릭 시 아래로 펼쳐지는 세부 링크 목록 (평소에는 숨김 상태) */
     .sub-list {
       list-style: none;
       padding: 0;
       margin: 0;
       background-color: #fafafa;
-      max-height: 0;             /* 높이를 0으로 설정하여 화면에서 숨김 */
-      overflow: hidden;          /* 높이 0 밖으로 넘치는 글자들을 숨김 */
-      transition: max-height 0.3s ease-out; /* 높이가 늘어날 때 부드럽게 열리는 아코디언 효과 */
+      max-height: 0;             /* 높이를 0으로 만들어 화면에서 숨김 */
+      overflow: hidden;          /* 높이 0 영역 밖으로 삐져나오는 텍스트를 숨김 */
+      transition: max-height 0.3s ease-out; /* 높이가 변할 때 스르륵 열리는 아코디언 애니메이션 */
       border-top: 1px solid transparent;
     }
-    /* 메뉴가 열렸을 때 위쪽 구분선 표시 */
-    .toc-item.active .sub-list {
-      border-top-color: #eee;
-    }
+    /* 카테고리가 열렸을 때 위쪽 경계선 표시 */
+    .toc-item.active .sub-list { border-top-color: #eee; }
 
-    /* 하위 세부 링크(<a> 태그) 디자인 */
+    /* 펼쳐진 세부 페이지 링크(<a> 태그) 디자인 */
     .sub-item a {
       display: flex;
       align-items: center;
-      padding: 10px 16px 10px 56px; /* 왼쪽 여백(56px)을 크게 주어 들여쓰기 효과 */
+      padding: 10px 16px 10px 56px; /* 왼쪽 안쪽 여백을 56px 주어 상위 제목보다 들여쓰기 */
       font-size: 13.5px;
       color: #555;
       text-decoration: none;     /* 링크 기본 밑줄 제거 */
       transition: all 0.2s ease;
     }
-    /* 하위 링크에 마우스를 올렸을 때 오른쪽으로 살짝 밀리며 강조되는 효과 */
-    .sub-item a:hover {
-      background-color: #f0f0f0;
-      color: #000;
-      font-weight: 600;
-      padding-left: 60px;
-    }
-    /* 각 하위 링크 텍스트 앞에 노란색 점(•) 자동 삽입 */
-    .sub-item a::before {
-      content: "•";
-      margin-right: 8px;
-      color: #ffd054;
-      font-weight: bold;
+    /* 세부 링크에 마우스를 올렸을 때 오른쪽으로 살짝 이동하며 글씨 굵게 강조 */
+    .sub-item a:hover { background-color: #f0f0f0; color: #000; font-weight: 600; padding-left: 60px; }
+    /* 모든 세부 링크 텍스트 앞에 노란색 점(•) 자동 추가 */
+    .sub-item a::before { content: "•"; margin-right: 8px; color: #ffd054; font-weight: bold; }
+
+    /* 각 카테고리의 제일 상단(대표 페이지) 링크를 구분하기 위한 강조 스타일 */
+    .sub-item.main-link a {
+      font-weight: 700;          /* 글씨 굵게 */
+      color: #222;               /* 더 진한 글자색 */
+      background-color: #fffdf5; /* 은은한 아이보리 배경색 */
     }
   </style>
 </head>
-<body>
 
-  <!-- ==================== [2. HTML 본문 영역: 화면 구조 및 링크 연결] ==================== -->
+<body> <!-- 4. 실제 웹 브라우저 화면에 그려지는 본문 영역 -->
+
   <div class="toc-card">
-    <!-- 상단 제목 배너 -->
+    <!-- 상단 제목 영역 -->
     <div class="toc-header">
-      <h1>선형 자료구조 (C / Java)</h1>
-      <p>항목을 클릭하면 세부 예제 페이지로 이동합니다</p>
+      <h1>자료구조 (Data Structure)</h1>
+      <p>카테고리를 클릭하여 학습 페이지로 이동하세요</p>
     </div>
 
-    <!-- 목차 리스트 시작 -->
+    <!-- 전체 아코디언 목차 리스트 -->
     <ul class="toc-list">
 
-      <!-- 01. 스택 (Stack) -> 깃허브의 'stack' 폴더로 연결 -->
+      <!-- ==================== [카테고리 01: 스택] ==================== -->
+      <!-- 새 카테고리를 추가하려면 이 <li class="toc-item">...</li> 전체를 복사해서 아래에 붙여넣으세요 -->
       <li class="toc-item">
+        <!-- 아코디언 제목 버튼 -->
         <button class="toc-toggle">
-          <span class="toc-number">01</span>
-          <span>스택 (Stack)</span>
+          <span class="toc-number">01</span> <!-- 번호 수정 -->
+          <span>스택 (Stack)</span>         <!-- 카테고리 이름 수정 -->
           <span class="toc-icon">▼</span>
         </button>
+
+        <!-- 펼쳐지는 세부 링크 목록 -->
         <ul class="sub-list">
-          <!-- ★ 수정된 부분: href="./stack/" 을 입력하면 stack 폴더 안의 index.html이 열립니다. -->
-          <!-- target="_blank": 새 탭에서 열기 / rel="noopener noreferrer": 새 탭 열기 시 보안 취약점 방지 -->
-          <li class="sub-item"><a href="./stack/stack.html" target="_blank" rel="noopener noreferrer">스택(Stack) 실습 페이지 바로가기</a></li>
+          <!-- [제일 상단 대표 링크] stack 폴더 안에 index.html이 없으므로 실제 파일명(stack.html)까지 끝까지 적어줌 -->
+          <!-- target="_blank": 클릭 시 새 탭에서 열기 / rel="noopener noreferrer": 새 탭 열기 보안 강화 -->
+          <li class="sub-item main-link">
+            <a href="./stack/stack.html" target="_blank" rel="noopener noreferrer">스택(Stack) 전체 개요 및 시뮬레이터</a>
+          </li>
+          <!-- [하위 세부 예제 링크] 같은 stack 폴더 안의 다른 HTML 파일 연결 -->
+          <li class="sub-item">
+            <a href="./stack/stack_text.html" target="_blank" rel="noopener noreferrer">예제 1. 문자열 뒤집기</a>
+          </li>
+          <li class="sub-item">
+            <a href="./stack/stack_calc.html" target="_blank" rel="noopener noreferrer">예제 2. 후위 표기법 계산기</a>
+          </li>
         </ul>
       </li>
 
-      <!-- 02. 큐 (Queue) -> 깃허브의 'queue' 폴더로 연결 -->
+      <!-- ==================== [카테고리 02: 큐] ==================== -->
       <li class="toc-item">
         <button class="toc-toggle">
           <span class="toc-number">02</span>
@@ -202,12 +189,17 @@
           <span class="toc-icon">▼</span>
         </button>
         <ul class="sub-list">
-          <!-- ★ 수정된 부분: queue 폴더 안의 index.html로 연결 -->
-          <li class="sub-item"><a href="./queue/queue.html" target="_blank" rel="noopener noreferrer">큐(Queue) 실습 페이지 바로가기</a></li>
+          <!-- queue 폴더 안의 queue.html 파일로 직접 연결 -->
+          <li class="sub-item main-link">
+            <a href="./queue/queue.html" target="_blank" rel="noopener noreferrer">큐(Queue) 전체 개요 및 시뮬레이터</a>
+          </li>
+          <li class="sub-item">
+            <a href="./queue/circular_queue.html" target="_blank" rel="noopener noreferrer">예제 1. 원형 큐 구현</a>
+          </li>
         </ul>
       </li>
 
-      <!-- 03. 리스트 (List) -> 깃허브의 'list' 폴더로 연결 -->
+      <!-- ==================== [카테고리 03: 리스트] ==================== -->
       <li class="toc-item">
         <button class="toc-toggle">
           <span class="toc-number">03</span>
@@ -215,12 +207,17 @@
           <span class="toc-icon">▼</span>
         </button>
         <ul class="sub-list">
-          <!-- ★ 수정된 부분: list 폴더 안의 index.html로 연결 -->
-          <li class="sub-item"><a href="./list/list.html" target="_blank" rel="noopener noreferrer">리스트(List) 실습 페이지 바로가기</a></li>
+          <!-- list 폴더 안에 index.html 없이 list.html만 있으므로 ./list/list.html 로 정확히 연결 -->
+          <li class="sub-item main-link">
+            <a href="./list/list.html" target="_blank" rel="noopener noreferrer">리스트(List) 전체 개요 및 시뮬레이터</a>
+          </li>
+          <li class="sub-item">
+            <a href="./list/array_list.html" target="_blank" rel="noopener noreferrer">예제 1. 배열 기반 리스트</a>
+          </li>
         </ul>
       </li>
 
-      <!-- 04. 연결 리스트 (Linked List) -> 깃허브의 'linkedlist' 폴더로 연결 -->
+      <!-- ==================== [카테고리 04: 연결 리스트] ==================== -->
       <li class="toc-item">
         <button class="toc-toggle">
           <span class="toc-number">04</span>
@@ -228,34 +225,36 @@
           <span class="toc-icon">▼</span>
         </button>
         <ul class="sub-list">
-          <!-- ★ 수정된 부분: linkedlist 폴더 안의 index.html로 연결 -->
-          <li class="sub-item"><a href="./linkedlist/linkedlist.html" target="_blank" rel="noopener noreferrer">연결 리스트(Linked List) 실습 페이지 바로가기</a></li>
+          <!-- linkedlist 폴더 안의 실제 파일명(예: linkedlist.html 또는 linkedlist02.html)을 정확히 기입 -->
+          <li class="sub-item main-link">
+            <a href="./linkedlist/linkedlist.html" target="_blank" rel="noopener noreferrer">연결 리스트(Linked List) 전체 개요 및 시뮬레이터</a>
+          </li>
+          <li class="sub-item">
+            <a href="./linkedlist/linkedlist02.html" target="_blank" rel="noopener noreferrer">예제 1. 보물 탐험대 연결 리스트</a>
+          </li>
         </ul>
       </li>
 
     </ul>
   </div>
 
-  <!-- ==================== [3. JavaScript 영역: 아코디언 메뉴 클릭 동작] ==================== -->
+  <!-- ==================== [JavaScript 영역: 버튼 클릭 시 아코디언 열기/닫기 제어] ==================== -->
   <script>
-    // 화면에 있는 모든 '.toc-toggle'(대주제 버튼)을 찾아 각각 클릭 이벤트를 연결함
+    // 문서 내의 모든 '.toc-toggle'(카테고리 버튼) 요소를 찾아 각각 클릭 이벤트를 등록함
     document.querySelectorAll('.toc-toggle').forEach(button => {
       button.addEventListener('click', () => {
-        const currentItem = button.parentElement;       // 클릭한 버튼의 부모 요소 (<li class="toc-item">)
-        const currentSubList = button.nextElementSibling; // 클릭한 버튼 바로 다음 형제 요소 (<ul class="sub-list">)
-        const isOpen = currentItem.classList.contains('active'); // 현재 항목이 이미 열려있는지 확인 (true/false)
+        const currentItem = button.parentElement;              // 1. 클릭된 버튼의 부모 태그 (<li class="toc-item">)
+        const currentSubList = button.nextElementSibling;        // 2. 클릭된 버튼 바로 아래에 있는 목록 (<ul class="sub-list">)
+        const isOpen = currentItem.classList.contains('active'); // 3. 현재 클릭한 카테고리가 이미 열려있는지 여부 (true / false)
 
-        // 1단계: 다른 메뉴가 열려있을 수 있으므로, 일단 모든 항목의 'active' 클래스를 제거하고 높이를 초기화하여 닫음
-        document.querySelectorAll('.toc-item').forEach(item => {
-          item.classList.remove('active');
-        });
-        document.querySelectorAll('.sub-list').forEach(list => {
-          list.style.maxHeight = null;
-        });
+        // [초기화 단계] 다른 카테고리가 열려있을 수 있으므로 모든 카테고리를 먼저 닫음
+        document.querySelectorAll('.toc-item').forEach(item => item.classList.remove('active')); // 모든 active 클래스 제거
+        document.querySelectorAll('.sub-list').forEach(list => list.style.maxHeight = null);     // 모든 하위 목록 높이를 0으로 초기화
 
-        // 2단계: 방금 클릭한 항목이 닫혀있던 상태였다면(!isOpen), 'active' 클래스를 추가하고 실제 내용물 높이(scrollHeight)만큼 펼쳐줌
+        // [열기 단계] 방금 클릭한 카테고리가 닫혀있던 상태(!isOpen)였다면 열어줌
         if (!isOpen) {
-          currentItem.classList.add('active');
+          currentItem.classList.add('active'); // 'active' 클래스를 붙여 화살표 회전 및 테두리 활성화
+          // scrollHeight(숨겨진 실제 내용물의 전체 픽셀 높이)만큼 maxHeight를 늘려 부드럽게 펼침
           currentSubList.style.maxHeight = currentSubList.scrollHeight + "px";
         }
       });
